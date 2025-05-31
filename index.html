@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retro Royale - Season 2</title>
+    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #d4af37;
+            --secondary: #808080;
+            --dark: #121212;
+            --light: #e0e0e0;
+            --accent: #d4af37;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(18, 18, 18, 0.8);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 1rem 5%;
+            background: rgba(18, 18, 18, 0.95);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .download-btn {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(128, 128, 128, 0.1) 0%, rgba(18, 18, 18, 0.9) 70%);
+            z-index: -1;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-secondary {
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-3px);
+        }
+
+        .hero-image {
+            position: absolute;
+            right: 5%;
+            height: 60%;
+            width: auto;
+            max-width: 40%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .features {
+            padding: 5rem 5%;
+            background: linear-gradient(to bottom, var(--dark), #0a0a0a);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .section-title p {
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.8;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(40, 40, 40, 0.5);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        .gallery {
+            padding: 5rem 5%;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            height: 250px;
+            transition: all 0.5s ease;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            padding: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-overlay h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .cta {
+            padding: 5rem 5%;
+            text-align: center;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==');
+            opacity: 0.3;
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        .cta p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            color: var(--dark);
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background: var(--dark);
+            color: var(--primary);
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        footer {
+            background: #0a0a0a;
+            padding: 3rem 5%;
+            text-align: center;
+        }
+
+        .footer-logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-logo img {
+            height: 30px;
+            width: auto;
+        }
+
+        .footer-logo h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--light);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-links a {
+            color: var(--light);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .hero-image {
+                opacity: 0.3;
+                right: -10%;
+            }
+            
+            .hero-content {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-btns {
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav id="navbar">
+        <div class="logo">
+            <img src="logo.png" alt="Retro Royale Logo">
+            <h1>Retro Royale</h1>
+        </div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#features">Features</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#about">About</a>
+        </div>
+        <a href="https://discord.gg/VpTEcwv2z5" class="download-btn" target="_blank">Join Discord</a>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h2>Experience Fortnite Like It's 2017</h2>
+            <p>Retro Royale brings back the golden era of Fortnite with classic maps, weapons, and gameplay. Relive the nostalgia with our dedicated community.</p>
+            <div class="hero-btns">
+                <a href="https://discord.gg/VpTEcwv2z5" class="btn btn-primary" target="_blank">Join Discord</a>
+                <a href="#features" class="btn btn-secondary">Learn More</a>
+            </div>
+        </div>
+        <img src="https://cdn.mos.cms.futurecdn.net/iGN73cPk94KtNsgpSgruUF.jpg" alt="SKIBIDI TOILET OR CREEPER?" class="hero-image">
+    </section>
+
+    <section class="features" id="features">
+        <div class="section-title">
+            <h2>Why Choose Retro Royale?</h2>
+            <p>We've recreated the authentic Fortnite experience from the golden age with some modern improvements.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <h3>Classic Maps</h3>
+                <p>Play on the original Chapter 1 map with all your favorite locations like Tilted Towers, Retail Row, and more.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-gun"></i>
+                </div>
+                <h3>Original Weapons</h3>
+                <p>Experience the weapon meta that made Fortnite great INCLUDING double pump and all the classics.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>Active Community</h3>
+                <p>Join tons of players who miss the old Fortnite just like you.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery" id="gallery">
+        <div class="section-title">
+            <h2>Gallery</h2>
+            <p>Take a look at what Retro Royale has to offer.</p>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://i.redd.it/6ft1xs5ftm181.jpg" alt="Fortnite Battle">
+                <div class="gallery-overlay">
+                    <h3>Classic Combat</h3>
+                    <p>The original Fortnite gunplay experience</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://img-s-msn-com.akamaized.net/tenant/amp/entityid/BB1mRzNN.img?w=800&h=415&q=60&m=2&f=jpg" alt="Fortnite Map">
+                <div class="gallery-overlay">
+                    <h3>Original Map</h3>
+                    <p>The Chapter 1 island in all its glory</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://i.redd.it/d1o9edq6c74b1.jpg" alt="bp image">
+                <div class="gallery-overlay">
+                    <h3>Iconic Skins</h3>
+                    <p>All your favorite original skins available. FOR ABSOLUTELY FREE!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta" id="download">
+        <div class="cta-content">
+            <h2>Ready to Relive the Glory Days?</h2>
+            <p>Join tons of players experiencing Fortnite the way it was meant to be played. Download Retro Royale today - it's completely free!</p>
+            <a href="https://discord.gg/VpTEcwv2z5" class="cta-btn" target="_blank">Join Discord Now</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-logo">
+            <img src="logo.png" alt="Retro Royale Logo">
+            <h2>Retro Royale</h2>
+        </div>
+        <div class="footer-links">
+            <a href="#home">Home</a>
+            <a href="#features">Features</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#about">About</a>
+            <a href="https://discord.gg/VpTEcwv2z5" target="_blank">Join Discord</a>
+        </div>
+        <div class="social-links">
+            <a href="https://discord.gg/VpTEcwv2z5" target="_blank"><i class="fab fa-discord"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="#"><i class="fab fa-twitch"></i></a>
+        </div>
+        <p class="copyright">© 2025 Retro Royale. Not affiliated with Epic Games.</p>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        const animateOnScroll = function() {
+            const elements = document.querySelectorAll('.feature-card, .gallery-item, .section-title');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (elementPosition < windowHeight - 100) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        };
+
+        document.querySelectorAll('.feature-card, .gallery-item').forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(30px)';
+            element.style.transition = 'all 0.6s ease-out';
+        });
+
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+    </script>
+</body>
+</html>
